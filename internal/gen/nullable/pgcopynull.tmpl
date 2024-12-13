@@ -1,0 +1,42 @@
+package pgcopy2sql
+
+// This is generated go file using go run pgcopynull.go. NEVER EDIT.
+
+import (
+	"fmt"
+)
+
+func (p *{{.TypeName}}) RawValue() {{.PrimitiveName}} {
+	return p.value.{{.NullTypeName}}
+}
+func (p *{{.TypeName}}) IsValid() bool { return p.value.Valid }
+func (p *{{.TypeName}}) IsNull() bool { return ! p.IsValid() }
+func (p *{{.TypeName}}) Reset(){
+	var zero {{.TypeName}}
+	p.value = zero.value
+}
+
+func (p *{{.TypeName}}) SetValue(v {{.PrimitiveName}}){
+	p.value.{{.NullTypeName}} = v
+	p.value.Valid = true
+}
+
+func (p *{{.TypeName}}) String() string {
+	var raw {{.PrimitiveName}} = p.RawValue()
+	switch p.IsValid(){
+	case true: return fmt.Sprintf("Some(%v)", raw)
+	default: return "None"
+	}
+}
+
+func (p *{{.TypeName}}) WriteTo(writer ValueWriter) error {
+	return writer.{{.WriteMethodName}}(p.value)
+}
+
+func (p *{{.TypeName}}) AsValue() Value { return p }
+
+func {{.Prefix}}ToPgcopy(v {{.PrimitiveName}}) (*{{.TypeName}}, error) {
+	var p {{.TypeName}}
+	p.SetValue(v)
+	return &p, nil
+}
