@@ -23,3 +23,5 @@ go.work.sum
 
 # env file
 .env
+*.swp
+cmd/example/pgcopy2columns2stdout/pgcopy2columns2stdout
